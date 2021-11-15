@@ -18,8 +18,10 @@ import AppHeader from '../common/AppHeader';
 import NotFound from '../common/NotFound';
 import LoadingIndicator from '../common/LoadingIndicator';
 import PrivateRoute from '../common/PrivateRoute';
+import OAuth2RedirectHandler from '../user/oauth2/OAuth2RedirectHandler';
 
 import { Layout, notification } from 'antd';
+import LoginSocial from '../user/login/SocialLogin';
 const { Content } = Layout;
 
 class App extends Component {
@@ -106,11 +108,13 @@ class App extends Component {
                       currentUser={this.state.currentUser} handleLogout={this.handleLogout} {...props} />}>
                 </Route>
                 <Route path="/login" 
-                  render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
+                  render={(props) => <LoginSocial onLogin={this.handleLogin} {...props} />}></Route>
                 <Route path="/signup" component={Signup}></Route>
                 <Route path="/users/:username" 
                   render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}>
                 </Route>
+
+                <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>  
                 <PrivateRoute authenticated={this.state.isAuthenticated} path="/poll/new" component={NewPoll} handleLogout={this.handleLogout}></PrivateRoute>
                 <Route component={NotFound}></Route>
               </Switch>
